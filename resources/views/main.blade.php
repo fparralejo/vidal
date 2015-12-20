@@ -101,7 +101,11 @@
 		
 		<div class="col-sm-6 col-md-4">
 		    <div class="thumbnail">
-		    	
+
+<!--                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="http://www.youtube.com/watch?v=kc31ZHYvQ8g" allowfullscreen></iframe>
+                        </div>                        -->
+                        
 		      <img src="images/pic1.jpg" alt="..." class="img-responsive">
 		      <div class="caption">
 		        <h3>Título producto 2 <span class="label label-danger">Sin stock</span></h3>
