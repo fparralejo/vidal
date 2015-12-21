@@ -2,10 +2,15 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>thumbnails</title>
+    <title>Coches Vidal</title>
     <!--<meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <meta name="viewport" content="width=device-width, maximum-scale=1">
     <link rel="stylesheet" type="text/css" href="{{URL::asset('css/bootstrap.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{URL::asset('css/bootstrap-theme.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{URL::asset('css/estilo.css')}}">
+    <link rel="shortcut icon" href="{{URL::asset('favicon.ico')}}" type="image/x-icon"/>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'  type='text/css'>
+      
     <meta name="description" content="">
     <meta name="author" content="">
 </head>
@@ -24,7 +29,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Logo</a>
+        <a class="navbar-brand" href="{{ URL::asset('/') }}">
+            <img src="{{URL::asset('images/logo1.gif')}}" style="max-width:100px; margin-top: -7px;" class="img-responsive">
+        </a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -32,38 +39,29 @@
       <ul class="nav navbar-nav">
         <li><a href="#">2ª Mano <span class="sr-only">(current)</span></a></li>
         <li><a href="#">Nuevos</a></li>
+        <li><a href="#">Noticias</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mi Cuenta <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Alta</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
+            <li><a href="#">Entrar o Registrarme</a></li>
+            <li><a href="#">Favoritos</a></li>
+            <li><a href="#">Mis Alertas</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
+            <li><a href="#">Mis Anuncios</a></li>
           </ul>
         </li>
       </ul>
-      <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </li>
-      </ul>
+      
+        <ul class="nav navbar-nav navbar-right">
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Buscar">
+                </div>
+                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                <button type="text" onclick="javascript:window.href={{ URL::asset('/') }}" class="btn btn-primary"><span class="glyphicon glyphicon-share"></span>Publica tu anuncio</button>
+            </form>
+        </ul>
+
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
@@ -101,22 +99,19 @@
 		
 		<div class="col-sm-6 col-md-4">
 		    <div class="thumbnail">
+                        <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                        <iframe allowfullscreen="" src="https://www.youtube.com/embed/kc31ZHYvQ8g?feature=player_detailpage" frameborder="0"></iframe>
+                        </div>
+                        <div class="caption">
+                          <h3>Título producto 2 <span class="label label-danger">Sin stock</span></h3>
+                          <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                          consequat. Duis aute irure dolor in reprehenderit in voluptate velit ess
+                          </p>
 
-<!--                        <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item" src="http://www.youtube.com/watch?v=kc31ZHYvQ8g" allowfullscreen></iframe>
-                        </div>                        -->
-                        
-		      <img src="images/pic1.jpg" alt="..." class="img-responsive">
-		      <div class="caption">
-		        <h3>Título producto 2 <span class="label label-danger">Sin stock</span></h3>
-		        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-		        consequat. Duis aute irure dolor in reprehenderit in voluptate velit ess
-		        </p>
-		        
-		        <p><a href="#" class="btn btn-primary" role="button">Detalles</a> <a href="#" class="btn btn-default" role="button"><span class="glyphicon glyphicon-shopping-cart"></span> Agregar</a></p>
-		      </div>
+                          <p><a href="#" class="btn btn-primary" role="button">Detalles</a> <a href="#" class="btn btn-default" role="button"><span class="glyphicon glyphicon-shopping-cart"></span> Agregar</a></p>
+                        </div>
 		    </div>
 		  </div>
 		
