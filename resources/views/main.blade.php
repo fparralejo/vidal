@@ -99,8 +99,8 @@
 		
 		<div class="col-sm-6 col-md-4">
 		    <div class="thumbnail">
-                        <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-                        <iframe allowfullscreen="" src="https://www.youtube.com/embed/kc31ZHYvQ8g?feature=player_detailpage" frameborder="0"></iframe>
+                        <div class="embed-responsive embed-responsive-16by9">
+                        <iframe  class="embed-responsive-item" src="https://www.youtube.com/embed/kc31ZHYvQ8g?feature=player_detailpage"></iframe>
                         </div>
                         <div class="caption">
                           <h3>Título producto 2 <span class="label label-danger">Sin stock</span></h3>
