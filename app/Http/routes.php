@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('main');
 });
+
+
+//admin
+Route::get('admin', function () {
+    return view('admin/login');
+});
+
+Route::post('admin', 'adminController@login');

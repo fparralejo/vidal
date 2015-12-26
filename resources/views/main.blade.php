@@ -3,23 +3,19 @@
     <head>
         <meta charset="UTF-8">
         <title>Coches Vidal</title>
-        <!--<meta name="viewport" content="width=device-width, initial-scale=1"> -->
-        <meta name="viewport" content="width=device-width, maximum-scale=1">
-        <link rel="stylesheet" type="text/css" href="{{URL::asset('css/bootstrap.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{URL::asset('css/bootstrap-theme.min.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{URL::asset('css/estilo.css')}}">
-        <link rel="shortcut icon" href="{{URL::asset('favicon.ico')}}" type="image/x-icon"/>
-        <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'  type='text/css'>
+
+        @include('includes.header')
+
 
         <meta name="description" content="">
         <meta name="author" content="">
 
         <style>
             .thumbnail{
-                height: 400px;
+                height: 380px;
                 /*overflow-y: scroll;*/
             }
-            
+
             .caption p{
                 vertical-align: bottom;
             }
@@ -29,7 +25,7 @@
     <body>
 
 
-        <div class="container well">
+        <div class="container">
 
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
@@ -139,7 +135,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-sm-6 col-md-4">
                     <div class="thumbnail">
                         <span class="badge">5.99 USD</span>
@@ -191,9 +187,11 @@
 
             </div>
 
+
+            @include('includes.footer')
+
         </div>
 
-        <script src="{{URL::asset('js/jquery.min.js')}}"></script>
-        <script src="{{URL::asset('js/bootstrap.js')}}"></script>
+        @include('includes.js')
     </body>
 </html>
