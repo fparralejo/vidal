@@ -16,7 +16,7 @@
 
         <style>
             .thumbnail{
-                height: 350px;
+                height: 400px;
                 /*overflow-y: scroll;*/
             }
             
