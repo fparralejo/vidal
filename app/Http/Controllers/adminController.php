@@ -97,6 +97,11 @@ class adminController extends Controller {
 
     public function login(Request $request) {
 
+        echo $request->empresa.'<br/>';
+        echo $request->passEmpresa.'<br/>';
+        echo $request->usuario.'<br/>';
+        echo $request->passUsuario.'<br/>';die;
+        
         //busco en la tabla de claves si existe
         $encontrado = Usuario::where('nombre', '=', $request->nombre)
                 ->where('clave', '=', $request->clave)

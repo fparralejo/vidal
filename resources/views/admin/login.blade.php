@@ -53,7 +53,7 @@
                 </div>
             </div>
 
-            <form id="loginform" action="{{URL::to('login')}}" method="post">
+            <form id="loginform" action="{{URL::to('admin/login')}}" method="post">
                 <!-- CSRF Token -->
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <!-- ./ csrf token -->
