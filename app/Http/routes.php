@@ -1,4 +1,5 @@
 <?php
+//use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,13 @@ Route::get('admin', function () {
 });
 
 Route::post('admin/login', 'adminController@login');
+Route::get('admin/logout', 'adminController@logout');
+
+Route::get('admin/main', 'adminController@main');
+Route::get('admin/empresas', 'adminController@empresasMain');
+
+
+//if ($e instanceof NotFoundHttpException)
+//{
+//    return view('admin/main');
+//}

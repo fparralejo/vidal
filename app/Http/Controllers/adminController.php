@@ -6,7 +6,9 @@ use Session;
 use Illuminate\Http\Request;
 
 
+use App\Empresa;
 use App\Usuario;
+use App\OpcionPerfiles;
 
 
 class adminController extends Controller {
@@ -86,57 +88,71 @@ class adminController extends Controller {
 	}
 
 
-	public function main(){
+    public function main(){
         //control de sesion
         if (!$this->getControl()) {
-            return redirect('/')->with('login_errors', '<font color="#ff0000">La sesión a expirado. Vuelva a logearse.</font>');
+            return redirect('admin')->with('login_errors', '<font color="#ff0000">La sesión a expirado. Vuelva a logearse.</font>');
         }
 
-        return view('main');
-	}
+        return view('admin.main');
+    }
 
     public function login(Request $request) {
-
-        echo $request->empresa.'<br/>';
-        echo $request->passEmpresa.'<br/>';
-        echo $request->usuario.'<br/>';
-        echo $request->passUsuario.'<br/>';die;
         
-        //busco en la tabla de claves si existe
-        $encontrado = Usuario::where('nombre', '=', $request->nombre)
-                ->where('clave', '=', $request->clave)
-                ->get();
+        //busco en la tabla empresa
+        $empresa = Empresa::where('empresa', '=', $request->empresa)
+                          ->where('pass', '=', $request->passEmpresa)
+                          ->where('status', '=', '1')
+                          ->get();
+        
+        //sino encuentra empresa salimos con el error
+        if (count($empresa) === 0) {
+            return redirect('admin')->with('login_errors', '<font color="#ff0000">Datos incorrectos.</font>');
+        }
+        
+        //ahora busco en la tabla usuarios
+        $usuario = Usuario::where('usuario', '=', $request->usuario)
+                          ->where('pass', '=', $request->passUsuario)
+                          ->where('idEmpresa', '=', $empresa[0]->idEmpresa)
+                          ->where('status', '=', '1')
+                          ->get();
         
         //var_dump(count($encontrado));die;
 
-//        if (count($encontrado) > 0) {
-//            //guardo las vbles de sesion para navegar por la app
-//            Session::put('id', $encontrado[0]->IdUsu);
-//            Session::put('nombre', $encontrado[0]->nombre);
+        if (count($usuario) > 0) {
+            //guardo las vbles de sesion para navegar por la app
+            Session::put('id', $usuario[0]->idUsuario);
+            Session::put('usuario', $usuario[0]->nombre.' '.$usuario[0]->apellidos);
+            Session::put('empresa', $empresa[0]->nombre);
+            Session::put('idPerfil', $usuario[0]->idPerfil);
 
 
             return redirect('admin/main');
-//        } else {
-//            return redirect('/')->with('login_errors', '<font color="#ff0000">Nombre o clave incorrectos.</font>');
-//        }
+        } else {
+            return redirect('admin')->with('login_errors', '<font color="#ff0000">Datos incorrectos.</font>');
+        }
     }
 
     public function logout() {
         Session::flush();
-        return redirect('/');
+        return redirect('admin');
     }
 
     public function getControl() {
         //controlamos si estaamos en sesion por las distintas paginas de la app
         //controlamos las vbles sesion 'nombre', 'id'
-        if (Session::has('nombre') && Session::has('id')) {
-            //chequeamos que estos valores del usuario existan en la tabla 'usuarios'
-            $existe = Usuario::where('nombre', '=', Session::get('nombre'))
-                    ->where('IdUsu', '=', Session::get('id'))
-                    ->get();
+        if (Session::has('usuario') && Session::has('id') && Session::has('empresa')) {
+            //chequeamos que estos valores de la empresa
+            $existeEmpresa = Empresa::where('nombre', '=', Session::get('empresa'))->get();
 
-            //si existe el contador es mayor que 0
-            if (count($existe) > 0) {
+            if (count($existeEmpresa) === 0) {
+                return false;
+            }
+            
+            //chequeamos que estos valores del usuario
+            $existeUsuario = Usuario::where('idUsuario', '=', Session::get('id'))->get();
+            
+            if (count($existeUsuario) > 0) {
                 return true;
             } else {
                 return false;
@@ -146,4 +162,56 @@ class adminController extends Controller {
         }
     }
 
+    public function opcion_perfiles($opcion,$idPerfilUsuario) {
+        $opcion_perfiles = OpcionPerfiles::all();
+        
+        $encontrado = 'NO';
+        foreach ($opcion_perfiles as $opcion_perfil){
+            if($opcion_perfil->opcion === $opcion){
+                $perfiles = explode(',',$opcion_perfil->perfiles);
+                if(is_array($perfiles)){
+                    if(in_array($idPerfilUsuario,$perfiles)){
+                        $encontrado = 'SI';
+                    }else{
+                        $encontrado = 'NO';
+                    }
+                }else{
+                    $encontrado = 'NO';
+                }
+                break;
+            }
+        }
+        
+        if($encontrado === 'NO'){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    
+    
+    public function empresasMain() {
+        //control de sesion
+        if (!$this->getControl()) {
+            return redirect('admin')->with('login_errors', '<font color="#ff0000">La sesión a expirado. Vuelva a logearse..</font>');
+        }
+
+        $OK = $this->opcion_perfiles('menuEmpresa',Session::get('idPerfil'));
+        
+        if($OK === true){
+            //listado de las empresas actuales
+            $arResult = Empresa::all();
+            
+            return view('admin.empresasMain')->with('arResult',$arResult); 
+        }else{
+            return view('admin.main')->with('errores','Usted no tiene suficientes permisos para esta opción'); 
+        }
+
+
+
+
+
+
+        
+    }
 }

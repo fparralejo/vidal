@@ -53,41 +53,86 @@
                 </div>
             </div>
 
-            <form id="loginform" action="{{URL::to('admin/login')}}" method="post">
+            <form role="form" id="loginform" name="loginform" action="{{URL::to('admin/login')}}" method="post">
                 <!-- CSRF Token -->
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <!-- ./ csrf token -->
                 @if (Session::has('login_errors'))
-                <p style='color:#FB1D1D' >El usuario o la clave no son correctos.</p>
-                @else
-                <p>Introduzca usuario y clave para continuar.</p>
+                <p style='color:#FB1D1D' >Datos incorrectos.</p>
                 @endif
+                <p>Empresa</p>
                 <div class="form-group">
-                    <input type="text" maxlength="15" class="form-control" placeholder="Empresa" name="empresa" required autofocus>
+                    <input type="text" maxlength="15" class="form-control" placeholder="Empresa" name="empresa" id="empresa">
                 </div>
                 <div class="form-group">
-                    <input type="password" maxlength="15" class="form-control" placeholder="Clave Empresa" name="passEmpresa" required>
+                    <input type="password" maxlength="15" class="form-control" placeholder="Clave Empresa" name="passEmpresa" id="passEmpresa">
                 </div>
                 <hr>
+                <p>Usuario</p>
                 <div class="form-group">
-                    <input type="text" maxlength="15" class="form-control" placeholder="Usuario" name="usuario" required>
+                    <input type="text" maxlength="15" class="form-control" placeholder="Usuario" name="usuario" id="usuario">
                 </div>
                 <div class="form-group">
-                    <input type="password" maxlength="15" class="form-control" placeholder="Clave Usuario" name="passUsuario" required>
+                    <input type="password" maxlength="15" class="form-control" placeholder="Clave Usuario" name="passUsuario" id="passUsuario">
                 </div>
                 <div class="form-actions clearfix">                      
                     <input class="btn btn-block btn-primary btn-default" value="Acceder" type="submit">
                 </div>
-<!--                <div class="footer-login">
+                <div class="footer-login">
                     <div class="pull-left text">
                     </div>
 
-                </div>-->
+                </div>
             </form>
         </div>
+        
+        
+        <!--validaciones-->
+        <script>
+        $(document).ready(function() {
+            $('#loginform').formValidation({
+                framework: 'bootstrap',
+                icon: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    empresa: {
+                        validators: {
+                            notEmpty: {
+                                message: 'El nick de empresa es requerido'
+                            }
+                        }
+                    },
+                    passEmpresa: {
+                        validators: {
+                            notEmpty: {
+                                message: 'La clave de empresa es requerida'
+                            }
+                        }
+                    },
+                    usuario: {
+                        validators: {
+                            notEmpty: {
+                                message: 'El nick de usuario es requerido'
+                            }
+                        }
+                    },
+                    passUsuario: {
+                        validators: {
+                            notEmpty: {
+                                message: 'La clave de usuario es requerida'
+                            }
+                        }
+                    }
+                }
+            });
+
+        });
+        </script>
 
 
-        @include('includes.js')
 
     </body>
 </html>

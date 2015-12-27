@@ -192,6 +192,5 @@
 
         </div>
 
-        @include('includes.js')
     </body>
 </html>
