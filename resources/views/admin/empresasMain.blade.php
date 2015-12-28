@@ -9,6 +9,12 @@
         cursor: pointer;
     }
 
+    @media screen and (max-width: 640px) {    
+        .tablaResponsive{
+            overflow-x: auto;
+            display: inline-block;
+        }
+    }
 </style>
 
 <script type="text/javascript" charset="utf-8">
@@ -69,13 +75,15 @@
 //dd($arResult);die;
 ?>
 
-<table id="ejemplo1" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+<table id="ejemplo1" class="table table-striped table-bordered table-hover tablaResponsive" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th>Id</th>
             <th>Nombre</th>
+            <th>Dirección</th>
             <th>Localidad</th>
             <th>Provincia</th>
+            <th>Pais</th>
         </tr>
     </thead>
     <tbody>
@@ -89,12 +97,22 @@
             </td>
             <td class="sgsiRow" onClick="">
                 <div align="right">
+                    {{ $empresa->direccion }}
+                </div>
+            </td>
+            <td class="sgsiRow" onClick="">
+                <div align="right">
                     {{ $empresa->localidad }}
                 </div>
             </td>
             <td class="sgsiRow" onClick="">
                 <div align="right">
                     {{ $empresa->provincia }}
+                </div>
+            </td>
+            <td class="sgsiRow" onClick="">
+                <div align="right">
+                    {{ $empresa->pais }}
                 </div>
             </td>
         </tr>
