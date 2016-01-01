@@ -125,94 +125,44 @@ class asigperfilesController extends Controller {
     }
     
     public function asigperfilesActualizar(Request $request) {
-        echo $request->op_1_2;die;
+        //echo $request->op_1_2;die;
         
         //control de sesion
         $admin = new adminController();
         if (!$admin->getControl()) {
             return redirect('admin')->with('login_errors', '<font color="#ff0000">La sesión a expirado. Vuelva a logearse..</font>');
         }
-            
-
-        //si es nuevo este valor viene vacio
-        if($request->Id === ""){
-            $usuario = new Usuario();
-            $ok = 'Se ha dado de alta correctamente el usuario.';
-            $error = 'ERROR al dar de alta el usuario.';
-            
-            //compruebo que no exista el nick del usuario, si existe vuelvo al formulario con los datos cargados
-            $existeUsuario = Usuario::where('usuario','=',$request->usuario)->where('status','=','1')->count();
-            if($existeUsuario>0){
-                //como existe vuelvo al formulario cargando los datos
-                return redirect()->back()->withInput()->with('errors','El nick del usuario ya existe, intentalo con otro');
+           
+        //listamos los perfiles
+        $listPerfiles = Perfil::where('status','=','1')->get();
+        //listamos las opciones de los perfiles
+        $listOpciones =  OpcionPerfiles::all();
+        
+        //recojo los datos del request
+        // hago dos bucles, el externo recorre las opciones y el interno los perfiles
+        //asi genero la tabla (array) de todas las opciones
+        foreach ($listOpciones as $opcion) {
+            $listPerfilesNuevos = "";
+            foreach ($listPerfiles as $perfil) {
+                $posicion = 'op_'.$opcion->id.'_'.$perfil->idPerfil;
+                $valor = $request->$posicion;
+                //si viene "on" es = 1, si viene vacio es = 0
+                if($valor === 'on'){
+                    $listPerfilesNuevos[] = $perfil->idPerfil;
+                }
             }
+            $listPerfilesNuevos = implode(',',$listPerfilesNuevos);
             
-            //guardo los datos
-            $usuario->usuario = $request->usuario;
-        }
-        //sino se edita este Id
-        else{
-            $usuario = Usuario::find($request->Id);
-            $ok = 'Se ha editado correctamente el usuario.';
-            $error = 'ERROR al editar el usuario.';
+            //por utlimo actualizo esa linea de la tabla opciones_perfiles
+            $datosOpcion = OpcionPerfiles::find($opcion->id);
+            $datosOpcion->perfiles = $listPerfilesNuevos;
+            $datosOpcion->save();
         }
 
         
-        
-        //guardo los datos (comunes a editar o insertar nuevo)
-        $usuario->idEmpresa = $request->idEmpresa;
-        $usuario->usuario = $request->usuario;
-        $usuario->pass = $request->pass;
-        $usuario->nombre = $request->nombre;
-        $usuario->apellidos = $request->apellidos;
-        $usuario->NIF = $request->NIF;
-        $usuario->idPerfil = $request->idPerfil;
-        $usuario->email = $request->email;
-        $usuario->telefono = $request->telefono;
-        $usuario->fechaStatus = date('Y-m-d H:i:s');
-
-            
-        if($usuario->save()){
-            return redirect('admin/usuarios')->with('errors', $ok);
-        }else{
-            return redirect('admin/usuarios')->with('errors', $error);
-        }
+        $ok = 'Se ha actualizado las asignaciones de las opciones.';
+        return redirect('admin/asig_perfiles')->with('errors', $ok);
     }
     
     
-//    public function usuarioShow(){
-//        $usuario = Usuario::find(Input::get('Id'));
-//        
-//        
-//        //preparo array para devolver datos
-//        $datos['Id'] = $usuario->idUsuario;
-//        $datos['idEmpresa'] = $usuario->idEmpresa;
-//        $datos['usuario'] = $usuario->usuario;
-//        $datos['pass'] = $usuario->pass;
-//        $datos['nombre'] = $usuario->nombre;
-//        $datos['apellidos'] = $usuario->apellidos;
-//        $datos['NIF'] = $usuario->NIF;
-//        $datos['idPerfil'] = $usuario->idPerfil;
-//        $datos['CP'] = $usuario->CP;
-//        $datos['email'] = $usuario->email;
-//        $datos['telefono'] = $usuario->telefono;
-//
-//        //devuelvo la respuesta al send
-//        echo json_encode($datos);
-//    }    
-//    
-//    public function usuarioDelete(){
-//        $usuario = Usuario::find(Input::get('Id'));
-//        $txtUsuario = $usuario->nombre . ' ' . $usuario->apellidos;
-//
-//        //cambio el campo status = 0
-//        
-//        $usuario->status = 0;
-//        
-//        if($usuario->save()){
-//            echo "Usuario ". $txtUsuario ." borrado.";
-//        }else{
-//            echo "Usuario ". $txtUsuario ." NO ha sido borrado.";
-//        }
-//    }
 }
