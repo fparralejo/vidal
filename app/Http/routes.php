@@ -24,9 +24,18 @@ Route::get('admin', function () {
 
 Route::post('admin/login', 'adminController@login');
 Route::get('admin/logout', 'adminController@logout');
-
 Route::get('admin/main', 'adminController@main');
-Route::get('admin/empresas', 'adminController@empresasMain');
+
+Route::get('admin/empresas', 'empresaController@empresasMain');
+Route::post('admin/empresas', 'empresaController@empresasAltaEdit');
+Route::get('admin/empresa/show', 'empresaController@empresaShow');
+
+
+Route::get('admin/usuarios', 'usuarioController@usuariosMain');
+Route::post('admin/usuarios', 'usuarioController@usuariosAltaEdit');
+Route::get('admin/usuario/show', 'usuarioController@usuarioShow');
+Route::get('admin/usuario/delete', 'usuarioController@usuarioDelete');
+
 
 
 //if ($e instanceof NotFoundHttpException)

@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Session;
+use Input;
 use Illuminate\Http\Request;
 
 
@@ -189,29 +190,4 @@ class adminController extends Controller {
         }
     }
     
-    
-    public function empresasMain() {
-        //control de sesion
-        if (!$this->getControl()) {
-            return redirect('admin')->with('login_errors', '<font color="#ff0000">La sesión a expirado. Vuelva a logearse..</font>');
-        }
-
-        $OK = $this->opcion_perfiles('menuEmpresa',Session::get('idPerfil'));
-        
-        if($OK === true){
-            //listado de las empresas actuales
-            $arResult = Empresa::all();
-            
-            return view('admin.empresasMain')->with('arResult',$arResult); 
-        }else{
-            return view('admin.main')->with('errores','Usted no tiene suficientes permisos para esta opción'); 
-        }
-
-
-
-
-
-
-        
-    }
 }

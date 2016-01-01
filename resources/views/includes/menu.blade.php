@@ -1,4 +1,5 @@
             <li><a href="{{ URL::asset('admin/empresas') }}">Empresas</a></li>
+            <li><a href="{{ URL::asset('admin/usuarios') }}">Usuarios</a></li>
             <li role="separator" class="divider"></li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Empresas<span class="caret"></span></a>
