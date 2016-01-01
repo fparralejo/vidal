@@ -45,6 +45,7 @@ $('#ejemplo1').dataTable({
         { "sType": 'string' },
         { "sType": 'string' },
         { "sType": 'string' },
+        { "sType": 'string' },
         { "sType": 'string' }
     ],                    
     "bJQueryUI":true,

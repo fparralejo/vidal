@@ -26,15 +26,26 @@ Route::post('admin/login', 'adminController@login');
 Route::get('admin/logout', 'adminController@logout');
 Route::get('admin/main', 'adminController@main');
 
+//empresas
 Route::get('admin/empresas', 'empresaController@empresasMain');
 Route::post('admin/empresas', 'empresaController@empresasAltaEdit');
 Route::get('admin/empresa/show', 'empresaController@empresaShow');
 
-
+//usuarios
 Route::get('admin/usuarios', 'usuarioController@usuariosMain');
 Route::post('admin/usuarios', 'usuarioController@usuariosAltaEdit');
 Route::get('admin/usuario/show', 'usuarioController@usuarioShow');
 Route::get('admin/usuario/delete', 'usuarioController@usuarioDelete');
+
+//perfiles
+Route::get('admin/perfiles', 'perfilesController@perfilesMain');
+Route::post('admin/perfiles', 'perfilesController@perfilesAltaEdit');
+Route::get('admin/perfil/delete', 'perfilesController@perfilDelete');
+
+//asignacion perfiles
+Route::get('admin/asig_perfiles', 'asigperfilesController@asigperfilesMain');
+Route::post('admin/asig_perfiles', 'asigperfilesController@asigperfilesActualizar');
+
 
 
 
