@@ -17,6 +17,10 @@ Route::get('/', function () {
 });
 
 
+//para ver el parte
+Route::get('parte', 'parteController@listado');
+
+
 //admin
 Route::get('admin', function () {
     return view('admin/login');
