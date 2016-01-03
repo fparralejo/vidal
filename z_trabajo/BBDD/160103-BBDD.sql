@@ -102,7 +102,8 @@ DROP TABLE IF EXISTS `modelos`;
 CREATE TABLE IF NOT EXISTS `modelos` (
   `idModelo` int(11) NOT NULL AUTO_INCREMENT,
   `marca` varchar(50) NOT NULL,
-  `year` varchar(6) NOT NULL,
+  `year_inicio` varchar(6) NOT NULL,
+  `year_fin` varchar(6) NOT NULL,
   `combustible` varchar(15) NOT NULL,
   `modelo` varchar(50) NOT NULL,
   `carroceria` varchar(50) NOT NULL,
@@ -111,12 +112,10 @@ CREATE TABLE IF NOT EXISTS `modelos` (
   `fechaStatus` datetime NOT NULL,
   `status` int(3) NOT NULL DEFAULT '1' COMMENT '1=Dato valido, 0= Borrado',
   PRIMARY KEY (`idModelo`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla vidal.modelos: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla vidal.modelos: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `modelos` DISABLE KEYS */;
-INSERT IGNORE INTO `modelos` (`idModelo`, `marca`, `year`, `combustible`, `modelo`, `carroceria`, `version`, `tipo_cambio`, `fechaStatus`, `status`) VALUES
-	(1, 'Audi', '1982', 'Diesel', '200', 'Berlina 4p', '2.2 Turbo', 'Manual', '2016-01-03 11:57:22', 1);
 /*!40000 ALTER TABLE `modelos` ENABLE KEYS */;
 
 
@@ -148,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `perfiles` (
   `fechaStatus` datetime NOT NULL,
   `status` int(3) NOT NULL DEFAULT '1' COMMENT '1=Dato valido, 0= Borrado',
   PRIMARY KEY (`idPerfil`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla vidal.perfiles: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `perfiles` DISABLE KEYS */;

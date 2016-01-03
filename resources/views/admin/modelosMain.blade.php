@@ -65,7 +65,8 @@ function leerModelo(Id){
             var modelo = JSON.parse(data);
             $('#Id').val(modelo.Id);
             $('#marca').val(modelo.marca);
-            $('#year').val(modelo.year);
+            $('#year_inicio').val(modelo.year_inicio);
+            $('#year_fin').val(modelo.year_fin);
             $('#combustible').val(modelo.combustible);
             $('#modelo').val(modelo.modelo);
             $('#carroceria').val(modelo.carroceria);
@@ -94,7 +95,7 @@ function borrarModelo(Id){
         setTimeout(function ()
         {
             document.location.href="{{URL::to('admin/modelos')}}";
-        }, 0);
+        }, 1000);
     }
 }
 
@@ -113,7 +114,7 @@ function copiarModelo(Id){
         setTimeout(function ()
         {
             document.location.href="{{URL::to('admin/modelos')}}";
-        }, 0);
+        }, 2000);
     }
 }
 
@@ -152,7 +153,7 @@ $(document).ready(function() {
         <tr>
             <th style="width: 5%;">Id</th>
             <th style="width: 10%;">Marca</th>
-            <th style="width: 5%;">Año</th>
+            <th style="width: 5%;">Año Inicio</th>
             <th style="width: 10%;">Combustible</th>
             <th style="width: 15%;">Modelo</th>
             <th style="width: 20%;">Carroceria</th>
@@ -172,7 +173,7 @@ $(document).ready(function() {
                     {{ $modelo->marca }}
             </td>
             <td class="sgsiRow" onClick="{{ $url }}">
-                    {{ $modelo->year }}
+                    {{ $modelo->year_inicio }}
             </td>
             <td class="sgsiRow" onClick="{{ $url }}">
                     {{ $modelo->combustible }}
@@ -225,9 +226,18 @@ $(document).ready(function() {
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="year">Año</label>
-                <input type="text" class="form-control" id="year" name="year" maxlength="6"
-                       value="{{ Input::old('year') }}">
+                <label for="year_inicio">Año Inicio</label>
+                <input type="text" class="form-control" id="year_inicio" name="year_inicio" maxlength="6"
+                       value="{{ Input::old('year_inicio') }}">
+            </div>
+        </div>
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="year_fin">Año Fin</label>
+                <input type="text" class="form-control" id="year_fin" name="year_fin" maxlength="6"
+                       value="{{ Input::old('year_fin') }}">
             </div>
         </div>
     </div>    

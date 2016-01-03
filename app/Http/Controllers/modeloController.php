@@ -112,7 +112,7 @@ class modeloController extends Controller {
         }
     }
     
-    public function usuariosAltaEdit(Request $request) {
+    public function modelosAltaEdit(Request $request) {
         //var_dump($request);die;
         
         //control de sesion
@@ -124,46 +124,35 @@ class modeloController extends Controller {
 
         //si es nuevo este valor viene vacio
         if($request->Id === ""){
-            $usuario = new Usuario();
-            $ok = 'Se ha dado de alta correctamente el usuario.';
-            $error = 'ERROR al dar de alta el usuario.';
-            
-            //compruebo que no exista el nick del usuario, si existe vuelvo al formulario con los datos cargados
-            $existeUsuario = Usuario::where('usuario','=',$request->usuario)->where('status','=','1')->count();
-            if($existeUsuario>0){
-                //como existe vuelvo al formulario cargando los datos
-                return redirect()->back()->withInput()->with('errors','El nick del usuario ya existe, intentalo con otro');
-            }
-            
-            //guardo los datos
-            $usuario->usuario = $request->usuario;
+            $modelo = new Modelo();
+            $ok = 'Se ha dado de alta correctamente el modelo.';
+            $error = 'ERROR al dar de alta el modelo.';
         }
         //sino se edita este Id
         else{
-            $usuario = Usuario::find($request->Id);
-            $ok = 'Se ha editado correctamente el usuario.';
-            $error = 'ERROR al editar el usuario.';
+            $modelo = Modelo::find($request->Id);
+            $ok = 'Se ha editado correctamente el modelo.';
+            $error = 'ERROR al editar el modelo.';
         }
 
         
         
         //guardo los datos (comunes a editar o insertar nuevo)
-        $usuario->idEmpresa = $request->idEmpresa;
-        $usuario->usuario = $request->usuario;
-        $usuario->pass = $request->pass;
-        $usuario->nombre = $request->nombre;
-        $usuario->apellidos = $request->apellidos;
-        $usuario->NIF = $request->NIF;
-        $usuario->idPerfil = $request->idPerfil;
-        $usuario->email = $request->email;
-        $usuario->telefono = $request->telefono;
-        $usuario->fechaStatus = date('Y-m-d H:i:s');
+        $modelo->marca = $request->marca;
+        $modelo->year_inicio = $request->year_inicio;
+        $modelo->year_fin = $request->year_fin;
+        $modelo->combustible = $request->combustible;
+        $modelo->modelo = $request->modelo;
+        $modelo->carroceria = $request->carroceria;
+        $modelo->version = $request->version;
+        $modelo->tipo_cambio = $request->tipo_cambio;
+        $modelo->fechaStatus = date('Y-m-d H:i:s');
 
             
-        if($usuario->save()){
-            return redirect('admin/usuarios')->with('errors', $ok);
+        if($modelo->save()){
+            return redirect('admin/modelos')->with('errors', $ok);
         }else{
-            return redirect('admin/usuarios')->with('errors', $error);
+            return redirect('admin/modelos')->with('errors', $error);
         }
     }
     
@@ -175,7 +164,8 @@ class modeloController extends Controller {
         //preparo array para devolver datos
         $datos['Id'] = $modelo->idModelo;
         $datos['marca'] = $modelo->marca;
-        $datos['year'] = $modelo->year;
+        $datos['year_inicio'] = $modelo->year_inicio;
+        $datos['year_fin'] = $modelo->year_fin;
         $datos['combustible'] = $modelo->combustible;
         $datos['modelo'] = $modelo->modelo;
         $datos['carroceria'] = $modelo->carroceria;
@@ -186,18 +176,44 @@ class modeloController extends Controller {
         echo json_encode($datos);
     }    
     
-    public function usuarioDelete(){
-        $usuario = Usuario::find(Input::get('Id'));
-        $txtUsuario = $usuario->nombre . ' ' . $usuario->apellidos;
+    public function modeloDelete(){
+        $modelo = Modelo::find(Input::get('Id'));
+        $txtUsuario = $modelo->idModelo;
 
         //cambio el campo status = 0
         
-        $usuario->status = 0;
+        $modelo->status = 0;
         
-        if($usuario->save()){
-            echo "Usuario ". $txtUsuario ." borrado.";
+        if($modelo->save()){
+            echo "Modelo ". $txtUsuario ." borrado.";
         }else{
-            echo "Usuario ". $txtUsuario ." NO ha sido borrado.";
+            echo "Modelo ". $txtUsuario ." NO ha sido borrado.";
         }
     }
+    
+    public function modeloCopy(){
+        $modelo_a_copiar = Modelo::find(Input::get('Id'));
+        $txtUsuario = $modelo_a_copiar->idModelo;
+
+        //modelo nuevo
+        $modelo_nuevo = new Modelo();
+        
+        $modelo_nuevo->marca = $modelo_a_copiar->marca;
+        $modelo_nuevo->year_inicio = $modelo_a_copiar->year_inicio;
+        $modelo_nuevo->year_fin = $modelo_a_copiar->year_fin;
+        $modelo_nuevo->combustible = $modelo_a_copiar->combustible;
+        $modelo_nuevo->modelo = $modelo_a_copiar->modelo;
+        $modelo_nuevo->carroceria = $modelo_a_copiar->carroceria;
+        $modelo_nuevo->version = $modelo_a_copiar->version;
+        $modelo_nuevo->tipo_cambio = $modelo_a_copiar->tipo_cambio;
+        $modelo_nuevo->fechaStatus = date('Y-m-d H:i:s');
+        
+        
+        if($modelo_nuevo->save()){
+            echo "Modelo " . $txtUsuario . " copiado al " . $modelo_nuevo->idModelo;
+        }else{
+            echo "Modelo " . $txtUsuario . " NO ha sido copiado.";
+        }
+    }
+    
 }
