@@ -46,6 +46,10 @@ Route::get('admin/perfil/delete', 'perfilesController@perfilDelete');
 Route::get('admin/asig_perfiles', 'asigperfilesController@asigperfilesMain');
 Route::post('admin/asig_perfiles', 'asigperfilesController@asigperfilesActualizar');
 
+//marcas y modelos de coches
+Route::get('admin/modelos', 'modeloController@modelosMain');
+Route::post('admin/modelos', 'modeloController@modelosMain');
+Route::get('admin/modelo/show', 'modeloController@modeloShow');
 
 
 
