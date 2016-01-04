@@ -139,13 +139,11 @@ class modeloController extends Controller {
         
         //guardo los datos (comunes a editar o insertar nuevo)
         $modelo->marca = $request->marca;
-        $modelo->year_inicio = $request->year_inicio;
-        $modelo->year_fin = $request->year_fin;
+        $modelo->year = $request->year;
         $modelo->combustible = $request->combustible;
         $modelo->modelo = $request->modelo;
         $modelo->carroceria = $request->carroceria;
         $modelo->version = $request->version;
-        $modelo->tipo_cambio = $request->tipo_cambio;
         $modelo->fechaStatus = date('Y-m-d H:i:s');
 
             
@@ -164,13 +162,11 @@ class modeloController extends Controller {
         //preparo array para devolver datos
         $datos['Id'] = $modelo->idModelo;
         $datos['marca'] = $modelo->marca;
-        $datos['year_inicio'] = $modelo->year_inicio;
-        $datos['year_fin'] = $modelo->year_fin;
+        $datos['year'] = $modelo->year;
         $datos['combustible'] = $modelo->combustible;
         $datos['modelo'] = $modelo->modelo;
         $datos['carroceria'] = $modelo->carroceria;
         $datos['version'] = $modelo->version;
-        $datos['tipo_cambio'] = $modelo->tipo_cambio;
 
         //devuelvo la respuesta al send
         echo json_encode($datos);
@@ -199,13 +195,11 @@ class modeloController extends Controller {
         $modelo_nuevo = new Modelo();
         
         $modelo_nuevo->marca = $modelo_a_copiar->marca;
-        $modelo_nuevo->year_inicio = $modelo_a_copiar->year_inicio;
-        $modelo_nuevo->year_fin = $modelo_a_copiar->year_fin;
+        $modelo_nuevo->year = $modelo_a_copiar->year;
         $modelo_nuevo->combustible = $modelo_a_copiar->combustible;
         $modelo_nuevo->modelo = $modelo_a_copiar->modelo;
         $modelo_nuevo->carroceria = $modelo_a_copiar->carroceria;
         $modelo_nuevo->version = $modelo_a_copiar->version;
-        $modelo_nuevo->tipo_cambio = $modelo_a_copiar->tipo_cambio;
         $modelo_nuevo->fechaStatus = date('Y-m-d H:i:s');
         
         

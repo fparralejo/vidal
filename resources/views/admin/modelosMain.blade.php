@@ -65,13 +65,11 @@ function leerModelo(Id){
             var modelo = JSON.parse(data);
             $('#Id').val(modelo.Id);
             $('#marca').val(modelo.marca);
-            $('#year_inicio').val(modelo.year_inicio);
-            $('#year_fin').val(modelo.year_fin);
+            $('#year').val(modelo.year);
             $('#combustible').val(modelo.combustible);
             $('#modelo').val(modelo.modelo);
             $('#carroceria').val(modelo.carroceria);
             $('#version').val(modelo.version);
-            $('#tipo_cambio').val(modelo.tipo_cambio);
 
             //cambiar nombre del titulo del formulario
             $("#tituloForm").html('Editar Modelo');
@@ -153,7 +151,7 @@ $(document).ready(function() {
         <tr>
             <th style="width: 5%;">Id</th>
             <th style="width: 10%;">Marca</th>
-            <th style="width: 5%;">Año Inicio</th>
+            <th style="width: 5%;">Año</th>
             <th style="width: 10%;">Combustible</th>
             <th style="width: 15%;">Modelo</th>
             <th style="width: 20%;">Carroceria</th>
@@ -173,7 +171,7 @@ $(document).ready(function() {
                     {{ $modelo->marca }}
             </td>
             <td class="sgsiRow" onClick="{{ $url }}">
-                    {{ $modelo->year_inicio }}
+                    {{ $modelo->year }}
             </td>
             <td class="sgsiRow" onClick="{{ $url }}">
                     {{ $modelo->combustible }}
@@ -226,19 +224,12 @@ $(document).ready(function() {
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="year_inicio">Año Inicio</label>
-                <input type="text" class="form-control" id="year_inicio" name="year_inicio" maxlength="6"
-                       value="{{ Input::old('year_inicio') }}">
+                <label for="year">Año</label>
+                <input type="text" class="form-control" id="year" name="year" maxlength="6"
+                       value="{{ Input::old('year') }}">
             </div>
         </div>
         <div class="col-md-1">
-        </div>
-        <div class="col-md-2">
-            <div class="form-group">
-                <label for="year_fin">Año Fin</label>
-                <input type="text" class="form-control" id="year_fin" name="year_fin" maxlength="6"
-                       value="{{ Input::old('year_fin') }}">
-            </div>
         </div>
     </div>    
     
@@ -298,26 +289,6 @@ $(document).ready(function() {
                 <input type="text" class="form-control" id="version" name="version" maxlength="50" 
                        value="{{ Input::old('version') }}">
             </div>
-        </div>
-    </div>    
-
-    <div class="row">
-        <div class="col-md-5">
-            <label for="tipo_cambio">Tipo cambio</label>
-            <?php
-            $manual = "";
-            $automatico = "";
-            if('Manual' === Input::old('tipo_cambio')){
-                $manual = "selected";
-            }else
-            if('Automatico' === Input::old('tipo_cambio')){
-                $automatico = "selected";
-            }
-            ?>
-            <select class="form-control" id="tipo_cambio" name="tipo_cambio">
-                <option value="Manual" <?php echo $manual; ?>>Manual</option>
-                <option value="Automatico" <?php echo $automatico; ?>>Automatico</option>
-            </select>
         </div>
     </div>    
     
