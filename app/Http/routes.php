@@ -20,7 +20,7 @@ Route::get('/', function () {
 //para ver el parte
 Route::get('parte', 'parteController@listado');
 
-
+//ADMIN
 //admin
 Route::get('admin', function () {
     return view('admin/login');
@@ -56,6 +56,16 @@ Route::post('admin/modelos', 'modeloController@modelosAltaEdit');
 Route::get('admin/modelo/show', 'modeloController@modeloShow');
 Route::get('admin/modelo/delete', 'modeloController@modeloDelete');
 Route::get('admin/modelo/copy', 'modeloController@modeloCopy');
+
+
+//APP
+//publicar
+Route::get('publicar', 'publicarController@publicarMain');
+Route::get('publicar/listarModelos', 'publicarController@modelosShow');//AJAX
+Route::get('publicar/listarCarrocerias', 'publicarController@carroceriasShow');//AJAX
+Route::get('publicar/listarVersiones', 'publicarController@versionesShow');//AJAX
+
+
 
 
 
