@@ -43,6 +43,9 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
 
+        <link rel="icon" href="{{URL::asset('images/logo1.gif')}}">
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('css/estilo.css')}}">
+        <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'  type='text/css'>
 
 
         <meta name="description" content="">
