@@ -12,9 +12,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('main');
-});
+//Route::get('/', function () {
+//    return view('main');
+//});
+Route::get('/', 'mainController@listado');
 
 
 //para ver el parte
@@ -61,9 +62,17 @@ Route::get('admin/modelo/copy', 'modeloController@modeloCopy');
 //APP
 //publicar
 Route::get('publicar', 'publicarController@publicarMain');
+Route::post('publicar', 'publicarController@publicarAlta');
+Route::get('publicar/terminado', function () {
+    return view('publicar_terminado');
+});
 Route::get('publicar/listarModelos', 'publicarController@modelosShow');//AJAX
 Route::get('publicar/listarCarrocerias', 'publicarController@carroceriasShow');//AJAX
 Route::get('publicar/listarVersiones', 'publicarController@versionesShow');//AJAX
+
+Route::get('condiciones-uso', function () {
+    return view('condiciones_uso');
+});
 
 
 

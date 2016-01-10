@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : parra1970
 */
 
-.embed-responsive {
+/*.embed-responsive {
   position: relative;
   display: block;
   height: 0;
@@ -33,7 +33,7 @@ and open the template in the editor.
 }
 .embed-responsive-4by3 {
   padding-bottom: 75%;
-}
+}*/
 
 body {
     font-family: 'Ubuntu', sans-serif;

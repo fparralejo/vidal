@@ -79,7 +79,7 @@ function listarVersion(marca,year,combustible,modelo, carroceria){
 
 <h4 class="page-header">Detalles de tu anuncio</h4>
 
-<form role="form" class="form-horizontal" id="publicarForm" name="publicarForm" action="{{ URL::asset('publicar') }}" method="post" enctype="multipart/form-data">
+<form role="form" class="form-horizontal" id="publicarForm" name="publicarForm" action="{{ URL::asset('publicar') }}" method="post">
      <!--CSRF Token--> 
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     
@@ -153,41 +153,9 @@ function listarVersion(marca,year,combustible,modelo, carroceria){
     <div class="form-group">
         <label class="col-md-3 control-label" for="kilometros">Kilómetros</label>
         <div class="col-md-4">
-            <select class="form-control" id="kilometros" name="kilometros" onchange="">
-                <option value="">-- Selecciona --</option>
-                <option value="1">0 -4.999</option>
-                <option value="2" >5.000 - 9.999</option>
-                <option value="3" >10.000 - 14.999</option>
-                <option value="4" >15.000 - 19.999</option>
-                <option value="5" >20.000 - 24.999</option>
-                <option value="6" >25.000 - 29.999</option>
-                <option value="7" >30.000 - 34.999</option>
-                <option value="8" >35.000 - 39.999</option>
-                <option value="9" >40.000 - 44.999</option>
-                <option value="10" >45.000 - 49.999</option>
-                <option value="11" >50.000 - 54.999</option>
-                <option value="12" >55.000 - 59.999</option>
-                <option value="13" >60.000 - 64.999</option>
-                <option value="14" >65.000 - 69.999</option>
-                <option value="15" >70.000 - 74.999</option>
-                <option value="16" >75.000 - 79.999</option>
-                <option value="17" >80.000 - 84.999</option>
-                <option value="18" >85.000 - 89.999</option>
-                <option value="19" >90.000 - 94.999</option>
-                <option value="20" >95.000 - 99.999</option>
-                <option value="21" >100.000 - 109.999</option>
-                <option value="22" >110.000 - 119.999</option>
-                <option value="23" >120.000 - 129.999</option>
-                <option value="24" >130.000 - 139.999</option>
-                <option value="25" >140.000 - 149.999</option>
-                <option value="26" >150.000 - 159.999</option>
-                <option value="27" >160.000 - 169.999</option>
-                <option value="28" >170.000 - 179.999</option>
-                <option value="29" >180.000 - 189.999</option>
-                <option value="30" >190.000 - 199.999</option>
-                <option value="31" >Más de 200.000</option>
-            </select>
+            <input type="text" class="form-control" id="kilometros" name="kilometros" maxlength="20">
         </div>
+        <label class="col-md-3 control-label">Coches nuevos Km=0, 2ª Mano Km>0 </label>
     </div>
     
     <div class="form-group">
@@ -210,17 +178,116 @@ function listarVersion(marca,year,combustible,modelo, carroceria){
     </div>
     
     <div class="form-group">
+        <label class="col-md-3 control-label" for="color">Color</label>
+        <div class="col-md-4">
+            <input type="text" class="form-control" id="color" name="color" maxlength="50">
+        </div>
+    </div>
+
+    <div class="form-group">
         <label class="col-md-3 control-label" for="precio">Precio</label>
         <div class="col-md-4">
             <input type="text" class="form-control" id="precio" name="precio" maxlength="15">
         </div>
         <label class="col-md-1 control-label"><div align="left">€</div></label>
     </div>
-    
-    <h4 class="page-header">Detalles de tu anuncio</h4>
 
     
+    <h4 class="page-header">Youtube</h4>
+
+    <div class="form-group">
+        <label class="col-md-3 control-label" for="youtube_url">Url video youtube</label>
+        <div class="col-md-9">
+            <input type="text" class="form-control" id="youtube_url" name="youtube_url" maxlength="200">
+        </div>
+    </div>
     
+    <div class="form-group">
+        <label class="col-md-3 control-label"></label>
+        <div class="col-md-8">
+            <img src="{{ URL::asset("images/youtube_url.png") }}" alt="Url de Youtube" style="height: 225px; width: 75%;">
+        </div>
+    </div>
+    
+    
+    <h4 class="page-header">Datos para que te contacten</h4>
+    
+    <div class="form-group">
+        <label class="col-md-3 control-label" for="nombre">Tu nombre</label>
+        <div class="col-md-4">
+            <input type="text" class="form-control" id="nombre" name="nombre" maxlength="150">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="col-md-3 control-label" for="poblacion">Poblacion</label>
+        <div class="col-md-4">
+            <input type="text" class="form-control" id="poblacion" name="poblacion" maxlength="100">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3 control-label" for="provincia">Provincia</label>
+        <div class="col-md-4">
+            <select class="form-control" id="marca" name="provincia">
+                <option value="">-- Elige Provincia --</option>
+                @foreach ($provincias as $provincia)
+                    <option value="{{ $provincia->nombre }}">{{ $provincia->nombre }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="col-md-3 control-label" for="email">E-mail</label>
+        <div class="col-md-4">
+            <input type="text" class="form-control" id="email" name="email" maxlength="100">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="col-md-3 control-label" for="email2">Confirmar E-mail</label>
+        <div class="col-md-4">
+            <input type="text" class="form-control" id="email2" name="email2" maxlength="100">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="col-md-3 control-label" for="telefono">Telefono</label>
+        <div class="col-md-3">
+            <input type="text" class="form-control" id="telefono" name="telefono" maxlength="20">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        
+        <div class="col-md-3 control-label">
+        </div>
+        <div class="col-md-6">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="condiciones_uso" name="condiciones_uso" value="1"  />
+                    <label id="lcondiciones_uso" for="condiciones_uso"> Acepto las </label>
+                    <a href="condiciones-uso" target="_blank">condiciones de uso y la Pol&iacute;tica de Privacidad</a>
+                </label>
+            </div>        
+        </div>        
+
+        
+<!--        <div class="col-md-6">
+            <input type="checkbox" id="condiciones_uso" name="condiciones_uso" value="1"  />
+            <label id="lcondiciones_uso" for="condiciones_uso"> Acepto las </label>
+            <a href="condiciones-uso" target="_blank">condiciones de uso y la Pol&iacute;tica de Privacidad</a>
+        </div>-->
+    </div>
+    
+    <div class="form-group">
+        <div class="col-md-3 control-label">
+        </div>
+        <div class="col-md-6">
+            <input type="submit" id="submitir" class="btn btn-primary" value="Publica Tu Anuncio"/>
+        </div>
+    </div>
 </form>
 
 
@@ -228,7 +295,7 @@ function listarVersion(marca,year,combustible,modelo, carroceria){
 
 <script>
 $(document).ready(function() {
-    $('#productForm').formValidation({
+    $('#publicarForm').formValidation({
         framework: 'bootstrap',
         icon: {
             valid: 'glyphicon glyphicon-ok',
@@ -236,34 +303,152 @@ $(document).ready(function() {
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
-//            id_oferta: {
-//                validators: {
-//                    notEmpty: {
-//                        message: 'El Id Oferta es requerido'
-//                    },
-//                    numeric: {
-//                        message: 'El Id Oferta tiene que ser un valor numérico'
-//                    }
-//                }
-//            },
-            oferta: {
+            marca: {
                 validators: {
                     notEmpty: {
-                        message: 'La Oferta de trabajo es requerida'
+                        message: 'Debe seleccionar una marca'
                     }
                 }
             },
-            descripcion: {
+            year: {
                 validators: {
                     notEmpty: {
-                        message: 'La descripción de trabajo es requerida'
+                        message: 'Debe seleccionar un año'
                     }
                 }
             },
-            empresa: {
+            combustible: {
                 validators: {
                     notEmpty: {
-                        message: 'La empresa de trabajo es requerida'
+                        message: 'Debe seleccionar el combustible que consume'
+                    }
+                }
+            },
+            modelo: {
+                validators: {
+                    notEmpty: {
+                        message: 'Debe seleccionar un modelo'
+                    }
+                }
+            },
+            carroceria: {
+                validators: {
+                    notEmpty: {
+                        message: 'Debe seleccionar una carroceria'
+                    }
+                }
+            },
+            version: {
+                validators: {
+                    notEmpty: {
+                        message: 'Debe seleccionar una versión'
+                    }
+                }
+            },
+            kilometros: {
+                validators: {
+                    notEmpty: {
+                        message: 'Escoje los kilometros actuales'
+                    }
+                }
+            },
+            tipo_cambio: {
+                validators: {
+                    notEmpty: {
+                        message: 'Escoje el tipo de cambio'
+                    }
+                }
+            },
+            observaciones: {
+                validators: {
+                    notEmpty: {
+                        message: 'Indique el estado del producto, sus características y toda la información que puede ser de ayuda para los compradores'
+                    }
+                }
+            },
+            color: {
+                validators: {
+                    notEmpty: {
+                        message: 'Indique el color'
+                    }
+                }
+            },
+            precio: {
+                validators: {
+                    notEmpty: {
+                        message: 'Indique el precio'
+                    },
+                    numeric: {
+                        message: 'El precio debe ser numérico'
+                    }
+                }
+            },
+            youtube_url: {
+                validators: {
+                    notEmpty: {
+                        message: 'Indique la url del video de youtube'
+                    },
+                    uri: {
+                        message: 'La url del video de youtube, debe ser correcta'
+                    }
+                }
+            },
+            nombre: {
+                validators: {
+                    notEmpty: {
+                        message: 'Indique el nombre'
+                    }
+                }
+            },
+            poblacion: {
+                validators: {
+                    notEmpty: {
+                        message: 'Indique la población'
+                    }
+                }
+            },
+            provincia: {
+                validators: {
+                    notEmpty: {
+                        message: 'Indique la provincia'
+                    }
+                }
+            },
+            email: {
+                validators: {
+                    notEmpty: {
+                        message: 'Indique un e-mail de contacto'
+                    },
+                    emailAddress: {
+                        message: 'Debe ser un e-mail correcto'
+                    }                    
+                }
+            },
+            email2: {
+                validators: {
+                    notEmpty: {
+                        message: 'Indique un e-mail de contacto'
+                    },
+                    emailAddress: {
+                        message: 'Debe ser un e-mail correcto'
+                    },
+                    identical: {
+                        field: 'email',
+                        message: 'Este e-mail tiene que ser igual al campo E-mail'
+                    }
+                }
+            },
+            telefono: {
+                validators: {
+                    notEmpty: {
+                        message: 'Indique un teléfono'
+                    }
+                }
+            },
+            condiciones_uso: {
+                validators: {
+                    notEmpty: {
+                        message: 'Debes aceptar las condiciones de uso.'
                     }
                 }
             }

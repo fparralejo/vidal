@@ -13,6 +13,9 @@ use App\Usuario;
 use App\Perfil;
 use App\OpcionPerfiles;
 use App\Modelo;
+use App\Provincia;
+use App\Contacto;
+use App\Anuncio;
 
 
 class publicarController extends Controller {
@@ -96,64 +99,83 @@ class publicarController extends Controller {
     public function publicarMain() {
         //listado de las marcas
         $modelos = Modelo::distinct()->select('marca')->where('status','=','1')->get();
+        //listado de las provincias
+        $provincias = Provincia::all();
 
-        return view('publicar')->with('modelos',$modelos); 
+        return view('publicar')->with('modelos',$modelos)->with('provincias',$provincias); 
     }
     
-//    public function usuariosAltaEdit(Request $request) {
-//        //var_dump($request);die;
-//        
-//        //control de sesion
-//        $admin = new adminController();
-//        if (!$admin->getControl()) {
-//            return redirect('admin')->with('login_errors', '<font color="#ff0000">La sesión a expirado. Vuelva a logearse..</font>');
-//        }
-//            
-//
-//        //si es nuevo este valor viene vacio
-//        if($request->Id === ""){
-//            $usuario = new Usuario();
-//            $ok = 'Se ha dado de alta correctamente el usuario.';
-//            $error = 'ERROR al dar de alta el usuario.';
-//            
-//            //compruebo que no exista el nick del usuario, si existe vuelvo al formulario con los datos cargados
-//            $existeUsuario = Usuario::where('usuario','=',$request->usuario)->where('status','=','1')->count();
-//            if($existeUsuario>0){
-//                //como existe vuelvo al formulario cargando los datos
-//                return redirect()->back()->withInput()->with('errors','El nick del usuario ya existe, intentalo con otro');
-//            }
-//            
-//            //guardo los datos
-//            $usuario->usuario = $request->usuario;
-//        }
-//        //sino se edita este Id
-//        else{
-//            $usuario = Usuario::find($request->Id);
-//            $ok = 'Se ha editado correctamente el usuario.';
-//            $error = 'ERROR al editar el usuario.';
-//        }
-//
-//        
-//        
-//        //guardo los datos (comunes a editar o insertar nuevo)
-//        $usuario->idEmpresa = $request->idEmpresa;
-//        $usuario->usuario = $request->usuario;
-//        $usuario->pass = $request->pass;
-//        $usuario->nombre = $request->nombre;
-//        $usuario->apellidos = $request->apellidos;
-//        $usuario->NIF = $request->NIF;
-//        $usuario->idPerfil = $request->idPerfil;
-//        $usuario->email = $request->email;
-//        $usuario->telefono = $request->telefono;
-//        $usuario->fechaStatus = date('Y-m-d H:i:s');
-//
-//            
-//        if($usuario->save()){
-//            return redirect('admin/usuarios')->with('errors', $ok);
-//        }else{
-//            return redirect('admin/usuarios')->with('errors', $error);
-//        }
-//    }
+    public function publicarAlta(Request $request){
+        //vamos a guardar los datos en las tablas contacto y anuncio
+        //1º comprobamos por el email que exista o no este contacto
+        //si es asi se actualiza los datos, sino se crea uno nuevo
+
+        $existe = Contacto::where("email","=",$request->email)->count();
+        
+        if($existe > 0){
+            //existe, actualizamos los datos
+            $contacto = Contacto::where("email","=",$request->email)->get();
+            
+            $contacto[0]->email = $request->email;
+            $contacto[0]->nombre = $request->nombre;
+            $contacto[0]->telefono = $request->telefono;
+            $contacto[0]->poblacion = $request->poblacion;
+            $contacto[0]->provincia = $request->provincia;
+            $contacto[0]->fechaStatus = date('Y-m-d H:i:s');
+            
+            if(!$contacto[0]->save()){
+                return redirect('publicar/terminado')->with('errors', 'NO se ha publicado el anuncio');
+            }
+            
+            $idContacto = $contacto[0]->idContacto;
+        }else{
+            //no existe, lo damos de alta
+            $contacto = new Contacto();
+            
+            $contacto->email = $request->email;
+            $contacto->nombre = $request->nombre;
+            $contacto->telefono = $request->telefono;
+            $contacto->poblacion = $request->poblacion;
+            $contacto->provincia = $request->provincia;
+            $contacto->fechaStatus = date('Y-m-d H:i:s');
+            $contacto->status = 1;
+            
+            if(!$contacto->save()){
+                return redirect('publicar/terminado')->with('errors', 'NO se ha publicado el anuncio');
+            }
+            
+            $idContacto = $contacto->idContacto;
+        }
+        
+        //2º inserto los datos del anuncio
+        //averiguo el idModelo segun los parametros de marca, año(year), combustible, modelo, carroceria y version
+        
+        $modelo = Modelo::where("marca","=",$request->marca)->where("year","=",$request->year)
+                        ->where("combustible","=",$request->combustible)->where("modelo","=",$request->modelo)
+                        ->where("carroceria","=",$request->carroceria)->where("version","=",$request->version)
+                        ->where("status","=","1")
+                        ->get();
+        
+        $anuncio = new Anuncio();
+        
+        $anuncio->idContacto = $idContacto;
+        $anuncio->idModelo = $modelo[0]->idModelo;
+        $anuncio->kilometros = $request->kilometros;
+        $anuncio->color = $request->color;
+        $anuncio->precio = $request->precio;
+        $anuncio->tipo_cambio = $request->tipo_cambio;
+        $anuncio->observaciones = $request->observaciones;
+        $anuncio->youtube_url = $request->youtube_url;
+        $anuncio->fechaStatus = date('Y-m-d H:i:s');
+        $anuncio->status = 1;
+
+        
+        if($anuncio->save()){
+            return redirect('publicar/terminado')->with('errors', 'Se ha publicado el anuncio');
+        }else{
+            return redirect('publicar/terminado')->with('errors', 'NO se ha publicado el anuncio');
+        }
+    }
     
     
     public function modelosShow(){
@@ -219,18 +241,4 @@ class publicarController extends Controller {
     
     
     
-//    public function usuarioDelete(){
-//        $usuario = Usuario::find(Input::get('Id'));
-//        $txtUsuario = $usuario->nombre . ' ' . $usuario->apellidos;
-//
-//        //cambio el campo status = 0
-//        
-//        $usuario->status = 0;
-//        
-//        if($usuario->save()){
-//            echo "Usuario ". $txtUsuario ." borrado.";
-//        }else{
-//            echo "Usuario ". $txtUsuario ." NO ha sido borrado.";
-//        }
-//    }
 }
