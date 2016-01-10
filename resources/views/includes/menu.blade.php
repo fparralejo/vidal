@@ -7,7 +7,8 @@
                   <li><a href="{{ URL::asset('admin/asig_perfiles') }}">Asignación Perfiles</a></li>
                 </ul>            
             </li>
-            <li><a href="{{ URL::asset('admin/modelos') }}">Datos Coches</a></li>
             <li><a href="{{ URL::asset('admin/usuarios') }}">Usuarios</a></li>
+            <li><a href="{{ URL::asset('admin/modelos') }}">Modelos Coches</a></li>
+            <li><a href="{{ URL::asset('admin/anuncios') }}">Anuncios</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="{{ URL::asset('admin/logout') }}">Salir</a></li>

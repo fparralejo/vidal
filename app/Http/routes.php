@@ -58,6 +58,10 @@ Route::get('admin/modelo/show', 'modeloController@modeloShow');
 Route::get('admin/modelo/delete', 'modeloController@modeloDelete');
 Route::get('admin/modelo/copy', 'modeloController@modeloCopy');
 
+//marcas y modelos de coches
+Route::get('admin/anuncios', 'anunciosController@anunciosShow');
+
+
 
 //APP
 //publicar

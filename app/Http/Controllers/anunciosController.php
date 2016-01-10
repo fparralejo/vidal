@@ -18,7 +18,7 @@ use App\Contacto;
 use App\Anuncio;
 
 
-class mainController extends Controller {
+class anunciosController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -95,44 +95,47 @@ class mainController extends Controller {
 	}
 
 
-    public function listado()
-    {
-        //listar anuncios
-        $anuncios = Anuncio::where("status","=","1")->get();
-        //listar modelos
-        $modelos = Modelo::where("status","=","1")->get();
-        
+    
+    public function anunciosShow() {
+        //listado de las anuncios
+        $anuncios = Anuncio::where('status','<>','0')->get();
+        //listado de las modelos
+        $modelos = Anuncio::where('status','=','1')->get();
         //genero el array con los datos que necesito
         $datos = "";
         foreach ($anuncios as $anuncio) {
             $dato['idAnuncio'] = $anuncio->idAnuncio;
-            $dato['fecha'] = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$anuncio->fechaStatus)->format('d/m/Y');
-            $dato['youtube_url'] = $anuncio->youtube_url;
-            $dato['precio'] = $anuncio->precio;
+            $dato['idUsuario'] = $anuncio->idUsuario;
+            $dato['idContacto'] = $anuncio->idContacto;
+            $dato['idModelo'] = $anuncio->idModelo;
             //ahora recorro listado $modelos
             foreach ($modelos as $modelo) {
                 if($modelo->idModelo === $anuncio->idModelo){
                     //guardo los datos del modelo
-                    $dato['datos'] = $modelo->marca .  ' ' . $modelo->modelo .  ' ' . $modelo->carroceria .  ' ' . $modelo->version;
+                    $dato['marca'] = $modelo->marca;
+                    $dato['year'] = $modelo->year;
+                    $dato['combustible'] = $modelo->combustible;
+                    $dato['modelo'] = $modelo->modelo;
+                    $dato['modelo'] = $modelo->modelo;
+                    $dato['carroceria'] = $modelo->carroceria;
+                    $dato['version'] = $modelo->version;
                     break;
                 }
             }
+            $dato['kilometros'] = $anuncio->kilometros;
+            $dato['color'] = $anuncio->color;
+            $dato['precio'] = $anuncio->precio;
+            $dato['tipo_cambio'] = $anuncio->tipo_cambio;
+            $dato['observaciones'] = $anuncio->observaciones;
+            $dato['youtube_url'] = $anuncio->youtube_url;
+            $dato['fecha'] = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$anuncio->fechaStatus)->format('d/m/Y');
+            $dato['status'] = $anuncio->status;
             
             $datos[] = $dato;
         }
         
-        return view('main')->with('anuncios',$datos); 
+        return view('admin.anuncios')->with('arResult',$datos); 
     }
-        
-    
-//    public function publicarMain() {
-//        //listado de las marcas
-//        $modelos = Modelo::distinct()->select('marca')->where('status','=','1')->get();
-//        //listado de las provincias
-//        $provincias = Provincia::all();
-//
-//        return view('publicar')->with('modelos',$modelos)->with('provincias',$provincias); 
-//    }
     
 //    public function publicarAlta(Request $request){
 //        //vamos a guardar los datos en las tablas contacto y anuncio
@@ -167,7 +170,7 @@ class mainController extends Controller {
 //            $contacto->poblacion = $request->poblacion;
 //            $contacto->provincia = $request->provincia;
 //            $contacto->fechaStatus = date('Y-m-d H:i:s');
-//            $contacto->status = 1;
+//            $contacto->status = 2;
 //            
 //            if(!$contacto->save()){
 //                return redirect('publicar/terminado')->with('errors', 'NO se ha publicado el anuncio');
@@ -182,6 +185,7 @@ class mainController extends Controller {
 //        $modelo = Modelo::where("marca","=",$request->marca)->where("year","=",$request->year)
 //                        ->where("combustible","=",$request->combustible)->where("modelo","=",$request->modelo)
 //                        ->where("carroceria","=",$request->carroceria)->where("version","=",$request->version)
+//                        ->where("status","=","1")
 //                        ->get();
 //        
 //        $anuncio = new Anuncio();

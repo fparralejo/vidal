@@ -167,7 +167,7 @@ class publicarController extends Controller {
         $anuncio->observaciones = $request->observaciones;
         $anuncio->youtube_url = $request->youtube_url;
         $anuncio->fechaStatus = date('Y-m-d H:i:s');
-        $anuncio->status = 1;
+        $anuncio->status = 2;//estado Sin confirmar
 
         
         if($anuncio->save()){
