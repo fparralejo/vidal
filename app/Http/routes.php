@@ -60,6 +60,9 @@ Route::get('admin/modelo/copy', 'modeloController@modeloCopy');
 
 //marcas y modelos de coches
 Route::get('admin/anuncios', 'anunciosController@anunciosShow');
+Route::post('admin/anuncios', 'anunciosController@anuncioEdit');
+Route::get('admin/anuncio/show', 'anunciosController@anuncioShow');//AJAX
+Route::get('admin/anuncio/confirm', 'anunciosController@anuncioConfirmado');//AJAX
 
 
 

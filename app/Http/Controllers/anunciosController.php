@@ -97,10 +97,17 @@ class anunciosController extends Controller {
 
     
     public function anunciosShow() {
+        //control de sesion
+        $admin = new adminController();
+        if (!$admin->getControl()) {
+            return redirect('admin')->with('login_errors', '<font color="#ff0000">La sesión a expirado. Vuelva a logearse..</font>');
+        }
+
+        $OK = $admin->opcion_perfiles('menuAnuncios',Session::get('idPerfil'));
+        
         //listado de las anuncios
-        $anuncios = Anuncio::where('status','<>','0')->get();
-        //listado de las modelos
-        $modelos = Anuncio::where('status','=','1')->get();
+        $anuncios = Anuncio::where('status','<>','0')->orderBy('fechaStatus', 'ASC')->get();
+        
         //genero el array con los datos que necesito
         $datos = "";
         foreach ($anuncios as $anuncio) {
@@ -108,20 +115,13 @@ class anunciosController extends Controller {
             $dato['idUsuario'] = $anuncio->idUsuario;
             $dato['idContacto'] = $anuncio->idContacto;
             $dato['idModelo'] = $anuncio->idModelo;
-            //ahora recorro listado $modelos
-            foreach ($modelos as $modelo) {
-                if($modelo->idModelo === $anuncio->idModelo){
-                    //guardo los datos del modelo
-                    $dato['marca'] = $modelo->marca;
-                    $dato['year'] = $modelo->year;
-                    $dato['combustible'] = $modelo->combustible;
-                    $dato['modelo'] = $modelo->modelo;
-                    $dato['modelo'] = $modelo->modelo;
-                    $dato['carroceria'] = $modelo->carroceria;
-                    $dato['version'] = $modelo->version;
-                    break;
-                }
-            }
+            $modelo = Modelo::where('idModelo','=',$anuncio->idModelo)->where('status','=','1')->get();
+            $dato['marca'] = $modelo[0]->marca;
+            $dato['year'] = $modelo[0]->year;
+            $dato['combustible'] = $modelo[0]->combustible;
+            $dato['modelo'] = $modelo[0]->modelo;
+            $dato['carroceria'] = $modelo[0]->carroceria;
+            $dato['version'] = $modelo[0]->version;
             $dato['kilometros'] = $anuncio->kilometros;
             $dato['color'] = $anuncio->color;
             $dato['precio'] = $anuncio->precio;
@@ -134,7 +134,122 @@ class anunciosController extends Controller {
             $datos[] = $dato;
         }
         
-        return view('admin.anuncios')->with('arResult',$datos); 
+        //listado de las marcas
+        $modelos = Modelo::distinct()->select('marca')->where('status','=','1')->get();
+        //listado de las provincias
+        $provincias = Provincia::all();
+        
+        return view('admin.anuncios')->with('arResult',$datos)->with('modelos',$modelos)->with('provincias',$provincias); 
+    }
+    
+    
+    public function anuncioShow(){
+        $modelo = Modelo::find(Input::get('idModelo'));
+        $anuncio = Anuncio::find(Input::get('idAnuncio'));
+        
+        
+        //preparo array para devolver datos
+        $datos['Id'] = $anuncio->idAnuncio;
+        $datos['marca'] = $modelo->marca;
+        $datos['year'] = $modelo->year;
+        $datos['combustible'] = $modelo->combustible;
+        $datos['modelo'] = $modelo->modelo;
+        $datos['carroceria'] = $modelo->carroceria;
+        $datos['version'] = $modelo->version;
+        $datos['kilometros'] = $anuncio->kilometros;
+        $datos['observaciones'] = $anuncio->observaciones;
+        $datos['color'] = $anuncio->color;
+        $datos['precio'] = $anuncio->precio;
+        $datos['tipo_cambio'] = $anuncio->tipo_cambio;
+        $datos['youtube_url'] = $anuncio->youtube_url;
+        
+        //ahora extraigo los datos del anunciante (puede ser contacto o usuario
+        if($anuncio->idUsuario !== 0){
+            //es usuario
+            $usuario = Usuario::find($anuncio->idUsuario);
+            $empresa = Empresa::find($usuario->idEmpresa);
+            $datos['tipo'] = 'usuario';
+            $datos['usuario'] = $usuario->nombre . ' ' . $usuario->apellidos;//1
+            $datos['NIF'] = $usuario->NIF;//2
+            $datos['email'] = $usuario->email;//5
+            $datos['telefono'] = $usuario->telefono;//4
+            $datos['empresa'] = $empresa->nombre;//3
+            
+        }else
+        if($anuncio->idContacto !== 0){
+            //es contacto
+            $contacto = Contacto::find($anuncio->idContacto);
+            $datos['tipo'] = 'contacto';
+            $datos['contacto'] = $contacto->nombre;//1
+            $datos['poblacion'] = $contacto->poblacion;//2
+            $datos['provincia'] = $contacto->provincia;//3
+            $datos['telefono'] = $contacto->telefono;//4
+            $datos['email'] = $contacto->email;//5
+            
+        }
+
+        //devuelvo la respuesta al send
+        echo json_encode($datos);
+    }    
+    
+    
+    public function anuncioEdit(Request $request){
+        //control de sesion
+        $admin = new adminController();
+        if (!$admin->getControl()) {
+            return redirect('admin')->with('login_errors', '<font color="#ff0000">La sesión a expirado. Vuelva a logearse..</font>');
+        }
+        
+        //actualizo los datos del anuncio
+        //1º veo los datos del modelo (campos = marca, year, combustible, modelo, carroceria y version)
+        $modelo = Modelo::where('marca','=',$request->marca)
+                        ->where('year','=',$request->year)
+                        ->where('combustible','=',$request->combustible)
+                        ->where('modelo','=',$request->modelo)
+                        ->where('carroceria','=',$request->carroceria)
+                        ->where('version','=',$request->version)
+                        ->where('status','=','1')
+                        ->get();
+
+        //compruebo que existe ese modelo, sino no se guardan los cambios, doy error
+        if($modelo[0]->idModelo === 0){
+            return false;
+        }
+        
+        //guardo los cambios en el anuncio
+        $anuncio = Anuncio::find($request->Id);
+        
+        $anuncio->idModelo = $modelo[0]->idModelo;
+        $anuncio->kilometros = $request->kilometros;
+        $anuncio->color = $request->color;
+        $anuncio->precio = $request->precio;
+        $anuncio->tipo_cambio = $request->tipo_cambio;
+        $anuncio->observaciones = $request->observaciones;
+        $anuncio->youtube_url = $request->youtube_url;
+        $anuncio->fechaStatus = date('Y-m-d H:i:s');
+
+            
+        if($anuncio->save()){
+            return redirect('admin/anuncios')->with('errors', 'Se ha actualizado  correctamente los datos del anuncio');
+        }else{
+            return redirect('admin/anuncios')->with('errors', 'NO se ha actualizado  correctamente los datos del anuncio');
+        }
+    }
+    
+    
+    public function anuncioConfirmado(){
+        $anuncio = Anuncio::find(Input::get('Id'));
+        $txtAnuncio = $anuncio->idAnuncio;
+
+        //cambio el campo status = 0
+        
+        $anuncio->status = 1;
+        
+        if($anuncio->save()){
+            echo "Anuncio ". $txtAnuncio ." confirmado.";
+        }else{
+            echo "Anuncio ". $txtAnuncio ." NO ha sido confirmado.";
+        }
     }
     
 //    public function publicarAlta(Request $request){
