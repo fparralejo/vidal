@@ -147,8 +147,8 @@ class anunciosController extends Controller {
         $modelo = Modelo::find(Input::get('idModelo'));
         $anuncio = Anuncio::find(Input::get('idAnuncio'));
         
-        
         //preparo array para devolver datos
+        $datos = array();
         $datos['Id'] = $anuncio->idAnuncio;
         $datos['marca'] = $modelo->marca;
         $datos['year'] = $modelo->year;
@@ -163,8 +163,8 @@ class anunciosController extends Controller {
         $datos['tipo_cambio'] = $anuncio->tipo_cambio;
         $datos['youtube_url'] = $anuncio->youtube_url;
         
-        //ahora extraigo los datos del anunciante (puede ser contacto o usuario
-        if($anuncio->idUsuario !== 0){
+        //ahora extraigo los datos del anunciante (puede ser contacto o usuario)
+        if((int)$anuncio->idUsuario !== 0){
             //es usuario
             $usuario = Usuario::find($anuncio->idUsuario);
             $empresa = Empresa::find($usuario->idEmpresa);
@@ -176,7 +176,7 @@ class anunciosController extends Controller {
             $datos['empresa'] = $empresa->nombre;//3
             
         }else
-        if($anuncio->idContacto !== 0){
+        if((int)$anuncio->idContacto !== 0){
             //es contacto
             $contacto = Contacto::find($anuncio->idContacto);
             $datos['tipo'] = 'contacto';

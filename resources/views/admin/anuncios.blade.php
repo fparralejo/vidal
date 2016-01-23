@@ -346,7 +346,7 @@ $(document).ready(function() {
 <table id="ejemplo1" class="table table-striped table-bordered table-hover tablaResponsive" cellspacing="0" width="100%">
     <thead>
         <tr>
-            <th style="width: 10%;">Fecha</th>
+            <th style="width: 10%;">Fecha1</th>
             <th style="width: 15%;">Marca</th>
             <th style="width: 15%;">Modelo</th>
             <th style="width: 15%;">Carroceria</th>
@@ -361,7 +361,7 @@ $(document).ready(function() {
     <tbody>
     <?php
     for ($i = 0; $i < count($arResult); $i++) {
-        if($arResult[$i]['status'] === '2'){
+        if((string)$arResult[$i]['status'] === '2'){
             $url="javascript:leerAnuncio('".$arResult[$i]['idAnuncio']."','".$arResult[$i]['idModelo']."');";
         }else{
             $url="";
@@ -393,7 +393,7 @@ $(document).ready(function() {
                     {{ $arResult[$i]['precio'] }}
             </td>
             <td>
-                <?php if($arResult[$i]['status'] === '2'){ ?>
+                <?php if((string)$arResult[$i]['status'] === '2'){ ?>
                     <button type="button" onclick="pasarConfirmado({{ $arResult[$i]['idAnuncio'] }})" class="btn btn-xs btn-success">OK</button>
                 <?php } ?>
             </td>
