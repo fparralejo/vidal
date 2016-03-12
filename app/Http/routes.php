@@ -62,7 +62,6 @@ Route::get('admin/modelo/copy', 'modeloController@modeloCopy');
 Route::get('admin/anuncios', 'anunciosController@anunciosShow');
 Route::post('admin/anuncios', 'anunciosController@anuncioEdit');
 Route::get('admin/anuncio/show', 'anunciosController@anuncioShow');//AJAX
-Route::get('admin/anuncio/delete', 'anunciosController@anuncioDelete');//AJAX
 Route::get('admin/anuncio/confirm', 'anunciosController@anuncioConfirmado');//AJAX
 
 

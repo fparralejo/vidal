@@ -114,24 +114,24 @@ function leerAnuncio(idAnuncio,idModelo){
     });
 }
 
-function borrarModelo(Id){
-    if (confirm("¿Desea borrar este anuncio?"))
-    {
-        $.ajax({
-          data:{"Id":Id},
-          url: '{{ URL::asset("admin/anuncio/delete") }}',
-          type:"get",
-          success: function(data) {
-                $('#accionTabla').html(data);
-                $('#accionTabla').show();
-          }
-        });
-        setTimeout(function ()
-        {
-            document.location.href="{{URL::to('admin/anuncios')}}";
-        }, 1000);
-    }
-}
+//function borrarModelo(Id){
+//    if (confirm("¿Desea borrar este modelo?"))
+//    {
+//        $.ajax({
+//          data:{"Id":Id},
+//          url: '{{ URL::asset("admin/modelo/delete") }}',
+//          type:"get",
+//          success: function(data) {
+//                $('#accionTabla').html(data);
+//                $('#accionTabla').show();
+//          }
+//        });
+//        setTimeout(function ()
+//        {
+//            document.location.href="{{URL::to('admin/modelos')}}";
+//        }, 1000);
+//    }
+//}
 
 function pasarConfirmado(Id){
     if (confirm("¿Desea confirmar este anuncio?"))
