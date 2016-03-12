@@ -11,15 +11,19 @@
                     for ($i = 0; $i < count($anuncios); $i++) {
                         ?>
                         <div class="col-sm-6 col-md-4">
-                            <div class="thumbnail">
-                                <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe class="embed-responsive-item" src="{{ $anuncios[$i]['youtube_url'] }}" allowfullscreen></iframe>
-                                </div>
-                                <div class="caption">
-                                    <h4>{{ $anuncios[$i]['precio'] }} €</h4>
-                                    <p>{{ $anuncios[$i]['datos'] }}
-                                    </p>
-                                    <p class="botones"><a href="#" class="btn btn-primary" role="button">Detalles</a> </p>
+                            <div class="service_block">
+                                <div class="thumbnail">
+                                    <div class="delay-03s animated wow  zoomIn">
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" src="{{ $anuncios[$i]['youtube_url'] }}" allowfullscreen></iframe>
+                                        </div>
+                                        <div class="caption">
+                                            <h4>{{ $anuncios[$i]['precio'] }} €</h4>
+                                            <p>{{ $anuncios[$i]['datos'] }}
+                                            </p>
+                                            <p class="botones"><a href="#" class="btn btn-primary" role="button">Detalles</a> </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
